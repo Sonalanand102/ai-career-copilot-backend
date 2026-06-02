@@ -1,3 +1,27 @@
+# AI Career Copilot
+
+## High Level Architecture
+
+```mermaid
+flowchart LR
+
+A[React Frontend]
+B[FastAPI Backend]
+C[LangGraph]
+D[(PostgreSQL)]
+E[File Storage]
+F[Tavily]
+G[OpenAI / Gemini]
+
+A --> B
+B --> C
+B --> D
+B --> E
+C --> F
+C --> G
+```
+## AI Workflow
+
 ```mermaid
 flowchart TD
 
@@ -15,6 +39,33 @@ I --> J[Interview Agent]
 J --> K[Application Strategy Agent]
 
 K --> L[Final AI Report]
+```
+## LangGraph Agent Architecture
+
+```mermaid
+flowchart TD
+
+P[Planner Agent]
+
+P --> R[Resume Agent]
+P --> J[JD Agent]
+P --> S[Skill Gap Agent]
+P --> A[ATS Agent]
+P --> C[Company Agent]
+P --> SA[Salary Agent]
+P --> I[Interview Agent]
+P --> O[Outreach Agent]
+
+R --> F[Final Synthesis Agent]
+J --> F
+S --> F
+A --> F
+C --> F
+SA --> F
+I --> F
+O --> F
+
+F --> REPORT[Application Strategy Report]
 ```
 
 # AI Career Copilot
