@@ -1,3 +1,22 @@
+```mermaid
+flowchart TD
+
+A[Resume PDF] --> B[Resume Analysis Agent]
+C[Job Description] --> D[JD Analysis Agent]
+
+B --> E[Job Fit Agent]
+D --> E
+
+E --> F[Skill Gap Agent]
+F --> G[ATS Agent]
+G --> H[Company Research Agent]
+H --> I[Salary Agent]
+I --> J[Interview Agent]
+J --> K[Application Strategy Agent]
+
+K --> L[Final AI Report]
+```
+
 # AI Career Copilot
 
 AI Career Copilot is a multi-agent AI platform that helps job seekers make better application decisions before they apply.
