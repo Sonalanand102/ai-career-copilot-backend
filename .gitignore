@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.venv/
+
+# Environment
+.env
+.env.*
+
+# Testing / tools
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+
+# Local DB / logs
+*.sqlite3
+*.db
+*.log
+
+# macOS
+.DS_Store
+
+# Uploaded/generated storage
+storage/resumes/*
+storage/reports/*
+
+# Keep folders in git
+!storage/resumes/.gitkeep
+!storage/reports/.gitkeep
