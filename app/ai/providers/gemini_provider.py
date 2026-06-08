@@ -3,6 +3,7 @@ import re
 
 import google.generativeai as genai
 
+from google.api_core.exceptions import ResourceExhausted
 from pydantic import BaseModel
 
 from app.core.config import settings
@@ -25,11 +26,18 @@ class GeminiProvider:
         prompt: str
     ) -> str:
 
-        response = cls.model.generate_content(
-            prompt
-        )
+        try:
 
-        return response.text
+            response = cls.model.generate_content(
+                prompt
+            )
+
+            return response.text
+
+        except ResourceExhausted:
+            raise ValueError(
+                "Gemini quota exceeded"
+            )
 
     @classmethod
     def generate_structured(
@@ -38,9 +46,16 @@ class GeminiProvider:
         schema: type[BaseModel]
     ):
 
-        response = cls.model.generate_content(
-            prompt
-        )
+        try:
+
+            response = cls.model.generate_content(
+                prompt
+            )
+
+        except ResourceExhausted:
+            raise ValueError(
+                "Gemini quota exceeded"
+            )
 
         content = response.text.strip()
 
