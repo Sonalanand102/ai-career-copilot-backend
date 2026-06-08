@@ -7,6 +7,7 @@ from app.schemas.job_analysis import (
 from app.services.job_analysis_service import (
     JobAnalysisService
 )
+''' ================================'''
 
 from uuid import UUID
 
@@ -24,6 +25,21 @@ from app.repositories.resume_repository import (
 from app.services.resume_analysis_service import (
     ResumeAnalysisService
 )
+
+''' ================================= '''
+
+from app.schemas.match import (
+    MatchRequest
+)
+
+from app.services.match_score_service import (
+    MatchScoreService
+)
+
+from app.services.skill_gap_service import (
+    SkillGapService
+)
+
 
 router = APIRouter(
     prefix="/analysis",
@@ -66,3 +82,73 @@ async def analyze_resume(
     return ResumeAnalysisService.analyze(
         resume.parsed_content
     )
+
+@router.post("/match")
+async def match_resume_to_job(
+    payload: MatchRequest,
+    db: Session = Depends(get_db)
+):
+
+    repository = ResumeRepository(
+        db
+    )
+
+    resume = repository.get_by_id(
+        payload.resume_id
+    )
+
+    if not resume:
+        raise HTTPException(
+            status_code=404,
+            detail="Resume not found"
+        )
+
+    resume_analysis = ResumeAnalysisService.analyze(
+        resume.parsed_content
+    )
+
+    job_analysis = JobAnalysisService.analyze(
+        payload.job_description
+    )
+
+    result = MatchScoreService.analyze(
+        resume_analysis.model_dump(),
+        job_analysis.model_dump()
+    )
+
+    return result
+
+@router.post("/skill-gap")
+async def skill_gap_analysis(
+    payload: MatchRequest,
+    db: Session = Depends(get_db)
+):
+
+    repository = ResumeRepository(
+        db
+    )
+
+    resume = repository.get_by_id(
+        payload.resume_id
+    )
+
+    if not resume:
+        raise HTTPException(
+            status_code=404,
+            detail="Resume not found"
+        )
+
+    resume_analysis = ResumeAnalysisService.analyze(
+        resume.parsed_content
+    )
+
+    job_analysis = JobAnalysisService.analyze(
+        payload.job_description
+    )
+
+    result = SkillGapService.analyze(
+        resume_analysis.model_dump(),
+        job_analysis.model_dump()
+    )
+
+    return result
