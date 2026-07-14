@@ -8,17 +8,41 @@ Return ONLY valid JSON.
 Expected format:
 
 {{
-  "match_score": 85,
-  "classification": "Strong Match",
-  "recommendation": "Apply",
-  "matching_skills": ["Python"],
-  "missing_skills": ["AWS"],
-  "strengths": [
+  "match_score":85,
+  "classification":"Strong Match",
+  "recommendation":"Apply",
+
+  "matching_skills":[
+    "Python"
+  ],
+
+  "missing_skills":[
+    "AWS"
+  ],
+
+  "strengths":[
     "Strong backend experience"
   ],
-  "next_steps": [
-    "Learn AWS",
-    "Learn Docker"
+
+  "company_summary":"Stripe builds financial infrastructure...",
+
+  "engineering_culture":"Ownership, scalability and engineering excellence.",
+
+  "role_tech_stack":[
+    "Python",
+    "Kafka",
+    "Docker"
+  ],
+
+  "interview_topics":[
+    "System Design",
+    "Distributed Systems",
+    "REST APIs"
+  ],
+
+  "next_steps":[
+    "Learn Kafka",
+    "Practice System Design"
   ]
 }}
 
@@ -37,4 +61,10 @@ Match Score:
 Skill Gap:
 
 {skill_gap}
+
+Company Intelligence
+
+This information was collected from external web sources and summarizes the company's engineering organization, hiring priorities and technologies relevant to this role.
+
+{company_intelligence}
 """

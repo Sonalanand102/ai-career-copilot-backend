@@ -34,6 +34,7 @@
 from typing import Any
 from typing_extensions import TypedDict
 
+
 from app.ai.schemas.resume_analysis_schema import (
     ResumeAnalysisSchema,
 )
@@ -48,6 +49,10 @@ from app.ai.schemas.match_score_schema import (
 
 from app.ai.schemas.skill_gap_schema import (
     SkillGapSchema,
+)
+
+from app.ai.schemas.company_intelligence_schema import (
+    CompanyIntelligenceSchema,
 )
 
 from app.ai.schemas.final_report_schema import (
@@ -69,4 +74,5 @@ class ReportState(TypedDict, total=False):
     job_analysis: JobAnalysisSchema
     match_score: MatchScoreSchema
     skill_gap: SkillGapSchema
+    company_intelligence: CompanyIntelligenceSchema
     final_report: FinalReportSchema

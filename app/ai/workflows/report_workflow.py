@@ -350,6 +350,9 @@ from app.ai.nodes.report_node import (
     report_node,
 )
 
+from app.ai.nodes.company_node import (
+    company_node,
+)
 
 def build_report_graph():
 
@@ -384,6 +387,11 @@ def build_report_graph():
         report_node
     )
 
+    workflow.add_node(
+        "company",
+        company_node,
+    )
+
     # START
 
     workflow.add_edge(
@@ -404,23 +412,28 @@ def build_report_graph():
     )
 
     workflow.add_edge(
-        "job",
-        "match"
-    )
-
-    # Resume + Job → Skill Gap
-
-    workflow.add_edge(
         "resume",
         "gap"
     )
 
     workflow.add_edge(
         "job",
+        "match"
+    )
+
+    workflow.add_edge(
+        "job",
         "gap"
     )
 
-    # Match + Gap → Final Report
+
+    workflow.add_edge(
+        "job",
+        "company"
+    )
+
+
+    # Match + Gap + Company → Final Report
 
     workflow.add_edge(
         "match",
@@ -429,6 +442,11 @@ def build_report_graph():
 
     workflow.add_edge(
         "gap",
+        "report"
+    )
+
+    workflow.add_edge(
+        "company",
         "report"
     )
 
