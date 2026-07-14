@@ -46,12 +46,6 @@ from app.schemas.report import (
     ReportRequest
 )
 
-from app.models.analysis import Analysis
-
-from app.models.analysis_report import (
-    AnalysisReport
-)
-
 from app.repositories.analysis_repository import (
     AnalysisRepository
 )
@@ -60,8 +54,8 @@ from app.repositories.analysis_report_repository import (
     AnalysisReportRepository
 )
 
-from app.services.final_report_service import (
-    FinalReportService
+from app.ai.workflows.report_workflow import (
+    report_graph
 )
 
 router = APIRouter(
@@ -190,18 +184,18 @@ async def generate_report(
         payload.resume_id
     )
 
-    analysis_repository = AnalysisRepository(
-        db
-    )
+    # analysis_repository = AnalysisRepository(
+    #     db
+    # )
 
-    analysis = analysis_repository.create(
-        Analysis(
-            user_id=resume.user_id,
-            resume_id=resume.id,
-            job_description=payload.job_description,
-            status="COMPLETED"
-        )
-    )
+    # analysis = analysis_repository.create(
+    #     Analysis(
+    #         user_id=resume.user_id,
+    #         resume_id=resume.id,
+    #         job_description=payload.job_description,
+    #         status="COMPLETED"
+    #     )
+    # )
 
     if not resume:
         raise HTTPException(
@@ -209,79 +203,60 @@ async def generate_report(
             detail="Resume not found"
         )
 
-    resume_analysis = ResumeAnalysisService.analyze(
-        resume.parsed_content
+
+
+    # report_repository = AnalysisReportRepository(
+    #     db
+    # )
+
+    # report_repository.create(
+    #     AnalysisReport(
+    #         analysis_id=analysis.id,
+    #         report_type="JOB_ANALYSIS",
+    #         report_json=final_report.model_dump()
+    #     )
+    # )
+
+    # report_repository.create(
+    #     AnalysisReport(
+    #         analysis_id=analysis.id,
+    #         report_type="RESUME_ANALYSIS",
+    #         report_json=resume_analysis.model_dump()
+    #     )
+    # )
+
+    # report_repository.create(
+    #     AnalysisReport(
+    #         analysis_id=analysis.id,
+    #         report_type="MATCH_SCORE",
+    #         report_json=match_score.model_dump()
+    #     )
+    # )
+
+    # report_repository.create(
+    #     AnalysisReport(
+    #         analysis_id=analysis.id,
+    #         report_type="SKILL_GAP",
+    #         report_json=skill_gap.model_dump()
+    #     )
+    # )
+
+    # analysis_repository.create(
+    #     AnalysisReport(
+    #         analysis_id=analysis.id,
+    #         report_type="FINAL_REPORT",
+    #         report_json=final_report.model_dump()
+    #     )
+    # )
+
+    result = report_graph.invoke(
+        {
+            "parsed_resume": resume.parsed_content,
+            "job_description": payload.job_description
+        }
     )
 
-    job_analysis = JobAnalysisService.analyze(
-        payload.job_description
-    )
-
-    match_score = MatchScoreService.analyze(
-        resume_analysis.model_dump(),
-        job_analysis.model_dump()
-    )
-
-    skill_gap = SkillGapService.analyze(
-        resume_analysis.model_dump(),
-        job_analysis.model_dump()
-    )
-
-    final_report = FinalReportService.analyze(
-        resume_analysis.model_dump(),
-        job_analysis.model_dump(),
-        match_score.model_dump(),
-        skill_gap.model_dump()
-    )
-
-    report_repository = AnalysisReportRepository(
-        db
-    )
-
-    report_repository.create(
-        AnalysisReport(
-            analysis_id=analysis.id,
-            report_type="JOB_ANALYSIS",
-            report_json=final_report.model_dump()
-        )
-    )
-
-    report_repository.create(
-        AnalysisReport(
-            analysis_id=analysis.id,
-            report_type="RESUME_ANALYSIS",
-            report_json=resume_analysis.model_dump()
-        )
-    )
-
-    report_repository.create(
-        AnalysisReport(
-            analysis_id=analysis.id,
-            report_type="MATCH_SCORE",
-            report_json=match_score.model_dump()
-        )
-    )
-
-    report_repository.create(
-        AnalysisReport(
-            analysis_id=analysis.id,
-            report_type="SKILL_GAP",
-            report_json=skill_gap.model_dump()
-        )
-    )
-
-    analysis_repository.create(
-        AnalysisReport(
-            analysis_id=analysis.id,
-            report_type="FINAL_REPORT",
-            report_json=final_report.model_dump()
-        )
-    )
-
-    return {
-        "analysis_id": analysis.id,
-        "report": final_report
-    }
+    return result["final_report"]
 
 @router.get("/analysis/{analysis_id}")
 async def get_analysis(

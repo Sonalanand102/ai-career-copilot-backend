@@ -5,7 +5,7 @@ from app.models.resume import ResumeStatus
 from app.repositories.resume_repository import ResumeRepository
 from storage.file_storage import FileStorageService
 from app.tasks.queue import resume_queue
-
+from app.tasks.resume_tasks import process_resume
 
 class ResumeService:
 
@@ -38,9 +38,11 @@ class ResumeService:
             resume
         )
 
-        resume_queue.enqueue(
-            "app.tasks.resume_tasks.process_resume",
-            str(resume.id)
-        )
+        # resume_queue.enqueue(
+        #     "app.tasks.resume_tasks.process_resume",
+        #     str(resume.id)
+        # )
+
+        process_resume(str(resume.id))
 
         return resume

@@ -32,6 +32,11 @@ class GeminiProvider:
                 prompt
             )
 
+            print("=" * 80)
+            print("Gemini Raw Response")
+            print(response)
+            print("=" * 80)
+
             return response.text
 
         except ResourceExhausted:
