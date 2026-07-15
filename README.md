@@ -1,5 +1,27 @@
 # AI Career Copilot
 
+# AI Career Copilot
+
+AI Career Copilot is a multi-agent AI platform that helps job seekers make better application decisions before they apply.
+
+Instead of manually researching companies, analyzing job descriptions, identifying skill gaps, optimizing resumes, preparing for interviews, and drafting outreach messages, users receive a comprehensive AI-generated application strategy report within minutes.
+
+---
+
+## Features
+
+- Resume parsing using Gemini
+- Resume analysis against job descriptions
+- Company intelligence using Tavily
+- Skill gap analysis
+- AI-powered match scoring
+- Structured report generation
+- LangGraph-based workflow orchestration
+- Background processing with Redis
+- PostgreSQL persistence
+
+---
+
 ## High Level Architecture
 
 ```mermaid
@@ -68,12 +90,108 @@ O --> F
 F --> REPORT[Application Strategy Report]
 ```
 
-# AI Career Copilot
+## Tech Stack
 
-AI Career Copilot is a multi-agent AI platform that helps job seekers make better application decisions before they apply.
+### Backend
 
-Instead of manually researching companies, analyzing job descriptions, identifying skill gaps, optimizing resumes, preparing for interviews, and drafting outreach messages, users receive a comprehensive AI-generated application strategy report within minutes.
+- FastAPI
+- PostgreSQL
+- SQLAlchemy
+- Alembic
 
+### AI
+
+- LangGraph
+- OpenAI
+- Gemini
+- Claude
+
+### Search
+
+- Tavily
+
+### Infrastructure
+
+- Docker
+
+---
+
+## Installation
+
+### Clone the repository
+
+```bash
+git clone https://github.com/Sonalanand102/ai-career-copilot-backend.git
+
+cd ai-career-copilot-backend
+```
+
+### Create a virtual environment
+
+```bash
+python -m venv venv
+
+source venv/bin/activate
+```
+
+### Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+---
+
+## Environment Variables
+
+Create a `.env` file.
+
+```env
+DATABASE_URL=
+
+REDIS_URL=
+
+GEMINI_API_KEY=
+
+TAVILY_API_KEY=
+```
+
+---
+
+## Running the Project
+
+### Start infrastructure
+
+```bash
+docker compose up -d
+```
+
+### Run database migrations
+
+```bash
+alembic upgrade head
+```
+
+### Start FastAPI
+
+```bash
+uvicorn app.main:app --reload
+```
+
+### Start the background worker
+
+```bash
+python -m app.workers.resume_worker
+```
+
+---
+
+## API Documentation
+
+Swagger UI
+
+```text
+http://localhost:8000/docs
+```
 ---
 
 ## Why I Built This
@@ -174,32 +292,6 @@ Final Synthesis Agent
 ```
 
 Each agent is responsible for a specific domain and produces structured outputs that are combined into a final report.
-
----
-
-## Tech Stack
-
-### Backend
-
-- FastAPI
-- PostgreSQL
-- SQLAlchemy
-- Alembic
-
-### AI
-
-- LangGraph
-- OpenAI
-- Gemini
-- Claude
-
-### Search
-
-- Tavily
-
-### Infrastructure
-
-- Docker
 
 ---
 
