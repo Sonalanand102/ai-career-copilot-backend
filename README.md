@@ -1,7 +1,5 @@
 # AI Career Copilot
 
-# AI Career Copilot
-
 AI Career Copilot is a multi-agent AI platform that helps job seekers make better application decisions before they apply.
 
 Instead of manually researching companies, analyzing job descriptions, identifying skill gaps, optimizing resumes, preparing for interviews, and drafting outreach messages, users receive a comprehensive AI-generated application strategy report within minutes.
@@ -102,9 +100,7 @@ F --> REPORT[Application Strategy Report]
 ### AI
 
 - LangGraph
-- OpenAI
 - Gemini
-- Claude
 
 ### Search
 
@@ -113,6 +109,17 @@ F --> REPORT[Application Strategy Report]
 ### Infrastructure
 
 - Docker
+
+---
+
+## Design Decisions
+
+- FastAPI for asynchronous APIs
+- LangGraph for workflow orchestration
+- PostgreSQL for persistent structured data
+- Redis for asynchronous background processing
+- Gemini for structured AI outputs
+- Tavily for real-time company intelligence
 
 ---
 
@@ -146,6 +153,8 @@ pip install -r requirements.txt
 Create a `.env` file.
 
 ```env
+APP_NAME=AI Career Copilot
+
 DATABASE_URL=
 
 REDIS_URL=
@@ -227,71 +236,6 @@ AI Career Copilot combines all of these into a single workflow and generates a p
 The goal is not just to help users apply.
 
 The goal is to help users decide whether they should apply in the first place.
-
----
-
-## Core Workflow
-
-```text
-Resume
-   +
-Job Description
-   ↓
-
-Resume Analysis
-   ↓
-
-Job Analysis
-   ↓
-
-Job Fit Analysis
-   ↓
-
-Skill Gap Detection
-   ↓
-
-ATS Evaluation
-   ↓
-
-Company Research
-   ↓
-
-Salary Intelligence
-   ↓
-
-Interview Preparation
-   ↓
-
-Application Strategy
-   ↓
-
-Final AI Report
-```
-
----
-
-## Architecture
-
-The platform follows a multi-agent architecture built with LangGraph.
-
-```text
-Planner Agent
-
-├── Resume Agent
-├── JD Agent
-├── ATS Agent
-├── Skill Gap Agent
-├── Company Agent
-├── Salary Agent
-├── Interview Agent
-├── Outreach Agent
-
-↓
-
-Final Synthesis Agent
-```
-
-Each agent is responsible for a specific domain and produces structured outputs that are combined into a final report.
 
 ---
 
