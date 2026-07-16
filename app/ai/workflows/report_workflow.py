@@ -354,6 +354,10 @@ from app.ai.nodes.company_node import (
     company_node,
 )
 
+from app.ai.nodes.ats_node import (
+    ats_node,
+)
+
 def build_report_graph():
 
     workflow = StateGraph(
@@ -392,6 +396,11 @@ def build_report_graph():
         company_node,
     )
 
+    workflow.add_node(
+        "ats",
+        ats_node,
+    )
+
     # START
 
     workflow.add_edge(
@@ -414,6 +423,16 @@ def build_report_graph():
     workflow.add_edge(
         "resume",
         "gap"
+    )
+
+    workflow.add_edge(
+        "resume",
+        "ats",
+    )
+
+    workflow.add_edge(
+        "job",
+        "ats",
     )
 
     workflow.add_edge(
@@ -448,6 +467,11 @@ def build_report_graph():
     workflow.add_edge(
         "company",
         "report"
+    )
+
+    workflow.add_edge(
+        "ats",
+        "report",
     )
 
     # END

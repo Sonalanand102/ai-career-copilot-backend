@@ -75,4 +75,5 @@ class ReportState(TypedDict, total=False):
     match_score: MatchScoreSchema
     skill_gap: SkillGapSchema
     company_intelligence: CompanyIntelligenceSchema
+    ats_analysis: Any
     final_report: FinalReportSchema

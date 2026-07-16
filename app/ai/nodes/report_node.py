@@ -45,6 +45,8 @@ def report_node(
         state["skill_gap"].model_dump(),
 
         state["company_intelligence"].model_dump(),
+
+        state["ats_analysis"].model_dump(),
     )
 
     return {

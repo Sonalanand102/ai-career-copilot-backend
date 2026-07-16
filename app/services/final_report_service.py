@@ -10,7 +10,6 @@ from app.ai.schemas.final_report_schema import (
     FinalReportSchema
 )
 
-
 # class FinalReportService:
 
 #     @staticmethod
@@ -42,6 +41,7 @@ class FinalReportService:
         match_score,
         skill_gap,
         company_intelligence,
+        ats_analysis
     ):
 
         prompt = FINAL_REPORT_PROMPT.format(
@@ -55,6 +55,8 @@ class FinalReportService:
             skill_gap=skill_gap,
 
             company_intelligence=company_intelligence,
+
+            ats_analysis=ats_analysis
         )
 
         return GeminiProvider.generate_structured(
